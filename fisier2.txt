@@ -1,0 +1,8 @@
+list :: a [ 2 , 100 , 42 , 31 , 629 ] ;;
+number :: max = list [ 0 ] ;;
+for ( number i == 1 ;; i <= 5 ;; i = i ++ 1 ) {
+if ( max << list [ i ] ) {
+max = list [ i ] ;;
+}
+}
+write ( max ) ;;

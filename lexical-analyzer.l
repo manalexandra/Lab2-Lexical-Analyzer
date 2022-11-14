@@ -71,51 +71,45 @@ void showProgramInternalForm() {
 %}
 
 
-REAL_NUMBER  [+-]?(0|[1-9][0-9]*)(\.[0-9]+)?
-IDENTIFIER   [a-z][a-z0-9_]*
-STRING       \".*\"
+constant  [+-]?(0|[1-9][0-9]*)(\.[0-9]+)?
+identifier   [a-z][a-z0-9_]*
 
 /*** Rule Section ***/
 %%
 					/* yytext is the text in the buffer */
-begin                                   { addToPIF(yytext, -1); }
-end					                            { addToPIF(yytext, -1); }
-start					                          { addToPIF(yytext, -1); }
-stop					                          { addToPIF(yytext, -1); }
+number                                  { addToPIF(yytext, -1); }
+letter					{ addToPIF(yytext, -1); }
+letters					{ addToPIF(yytext, -1); }
+list					{ addToPIF(yytext, -1); }
 if                                    	{ addToPIF(yytext, -1); }
 while                                   { addToPIF(yytext, -1); }
 for                                    	{ addToPIF(yytext, -1); }
-write                                   { addToPIF(yytext, -1); }
+dodo                                    { addToPIF(yytext, -1); }
 read                                    { addToPIF(yytext, -1); }
-else                                    { addToPIF(yytext, -1); }
-int                                    	{ addToPIF(yytext, -1); }
-real                                    { addToPIF(yytext, -1); }
-char                                    { addToPIF(yytext, -1); }
-\;                                    	{ addToPIF(yytext, -1); }
+write                                   { addToPIF(yytext, -1); }
+otherwise                               { addToPIF(yytext, -1); }
+\;;  					{ addToPIF(yytext, -1); }
+\::  					{ addToPIF(yytext, -1); }
 \(                                    	{ addToPIF(yytext, -1); }
 \)                                    	{ addToPIF(yytext, -1); }
-\,                                    	{ addToPIF(yytext, -1); }
-\+                                    	{ addToPIF(yytext, -1); }
-\-                                    	{ addToPIF(yytext, -1); }
-\*                                    	{ addToPIF(yytext, -1); }
-\/                                    	{ addToPIF(yytext, -1); }
-\%                                    	{ addToPIF(yytext, -1); }
-\>                                    	{ addToPIF(yytext, -1); }
-\<                                    	{ addToPIF(yytext, -1); }
+\{                                    	{ addToPIF(yytext, -1); }
+\}                                    	{ addToPIF(yytext, -1); }
+\++                                    	{ addToPIF(yytext, -1); }
+\--                                    	{ addToPIF(yytext, -1); }
+\**                                    	{ addToPIF(yytext, -1); }
+\//                                    	{ addToPIF(yytext, -1); }
+\!=                                    	{ addToPIF(yytext, -1); }
+\>>                                    	{ addToPIF(yytext, -1); }
+\<<                                    	{ addToPIF(yytext, -1); }
 \>=                                    	{ addToPIF(yytext, -1); }
 \<=                                    	{ addToPIF(yytext, -1); }
 \=                                    	{ addToPIF(yytext, -1); }
 \==                                    	{ addToPIF(yytext, -1); }
-\and                                    { addToPIF(yytext, -1); }
-\or                                    	{ addToPIF(yytext, -1); }
-\.                                    	{ addToPIF(yytext, -1); }
-\!=                                    	{ addToPIF(yytext, -1); }
-{IDENTIFIER}				                    { int stCode = addToST(yytext); addToPIF(yytext, stCode); }
-{REAL_NUMBER}                           { int stCode = addToST(yytext); addToPIF(yytext, stCode); }
-{STRING}				                        { int stCode = addToST(yytext); addToPIF(yytext, stCode); }
-[\n]					                          { ++lineNumber; }
-[ \t\n]+             		              	{ ; /* eat up whitespace */ }
-.                		                  	{ errorFound = 1; printf("Illegal token %s at line %d !", yytext, lineNumber); printf("\n"); }
+{identifier}				{ int stCode = addToST(yytext); addToPIF(yytext, stCode); }
+{constant}                              { int stCode = addToST(yytext); addToPIF(yytext, stCode); }
+[\n]					{ ++lineNumber; }
+[ \t\n]+             		        { ; /* eat up whitespace */ }
+.                		        { errorFound = 1; printf("Illegal token %s at line %d !", yytext, lineNumber); printf("\n"); }
 %%
 /* yywrap() - wraps the above rule section */
 int yywrap() {}
